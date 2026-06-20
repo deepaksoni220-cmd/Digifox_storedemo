@@ -28,14 +28,46 @@ export default function Checkout() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setPlaced(true);
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customer: {
+            firstName: form.firstName,
+            lastName: form.lastName,
+            email: form.email,
+            phone: form.phone,
+          },
+          address: {
+            line1: form.address,
+            city: form.city,
+            state: form.state,
+            pincode: form.pincode,
+          },
+          items: cartItems.map((item) => ({
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity || 1,
+          })),
+          subtotal,
+          total: subtotal,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Order failed");
+
       if (clearCart) clearCart();
-    }, 1500);
+      setPlaced(true);
+    } catch (err) {
+      alert("Order failed: " + err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (placed) {
