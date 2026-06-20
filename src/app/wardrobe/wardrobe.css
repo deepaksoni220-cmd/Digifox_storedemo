@@ -139,3 +139,63 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Search bar ─────────────────────────────────────────────────────────── */
+.wardrobe-search-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+}
+
+.wardrobe-search {
+  width: 100%;
+  padding: 0.65rem 2.5rem 0.65rem 1rem;
+  background: var(--base-200);
+  border: 0.0625rem solid var(--base-300);
+  border-radius: 0.5rem;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: clamp(0.75rem, 0.8vw, 0.85rem);
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--base-700);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.wardrobe-search::placeholder {
+  color: var(--base-400);
+}
+
+.wardrobe-search:focus {
+  border-color: var(--base-500);
+}
+
+.wardrobe-search-clear {
+  position: absolute;
+  right: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--base-400);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  line-height: 1;
+}
+
+/* ── Empty / error states ───────────────────────────────────────────────── */
+.wardrobe-empty,
+.wardrobe-error {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 0;
+  color: var(--base-400);
+}
+
+/* ── Mobile search center ───────────────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .wardrobe-search-wrap {
+    max-width: 100%;
+  }
+}

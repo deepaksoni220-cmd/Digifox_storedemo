@@ -29,20 +29,70 @@ export function createAdminClient() {
   });
 }
 
-// ─── Typed helper functions ────────────────────────────────────────────────
+// ─── Supabase Storage ──────────────────────────────────────────────────────
 
-/** Fetch all products (with category joined) */
-export async function getProducts() {
-  const { data, error } = await supabase
+const STORAGE_BUCKET = "products";
+
+/**
+ * Build a public Supabase Storage URL for a product image.
+ * @param {string} slug  — product slug, e.g. "veil-unit"
+ * @param {string} [file] — filename, defaults to "main.jpg"
+ * @returns {string}
+ */
+export function getProductImageUrl(slug, file = "main.jpg") {
+  return `${supabaseUrl}/storage/v1/object/public/${STORAGE_BUCKET}/${slug}/${file}`;
+}
+
+// ─── Product helpers ───────────────────────────────────────────────────────
+
+/**
+ * @typedef {{ category?: string; color?: string; search?: string }} ProductFilters
+ */
+
+/**
+ * Fetch all in-stock products from Supabase with optional filters.
+ * @param {ProductFilters} [filters]
+ * @returns {Promise<any[]>}
+ */
+export async function getProducts(filters = {}) {
+  const { category, color, search } = filters;
+
+  let query = supabase
     .from("products")
     .select("*, categories(name, slug)")
     .eq("in_stock", true)
     .order("created_at", { ascending: false });
+
+  if (color) {
+    query = query.ilike("color", color);
+  }
+
+  if (search) {
+    query = query.or(
+      `name.ilike.%${search}%,description.ilike.%${search}%`
+    );
+  }
+
+  const { data, error } = await query;
   if (error) throw error;
-  return data;
+
+  // Client-side category filter (PostgREST embedded resource filtering is limited)
+  if (category && data) {
+    return data.filter(
+      (p) =>
+        p.categories?.slug === category ||
+        p.categories?.name?.toLowerCase() === category.toLowerCase()
+    );
+  }
+
+  return data ?? [];
 }
 
-/** Fetch a single product by slug */
+/**
+ * Fetch a single product by slug.
+ * @param {string} slug
+ * @returns {Promise<any>}
+ */
 export async function getProductBySlug(slug) {
   const { data, error } = await supabase
     .from("products")
@@ -53,18 +103,40 @@ export async function getProductBySlug(slug) {
   return data;
 }
 
-/** Fetch all categories */
+/**
+ * Fetch related products excluding the current product's slug.
+ * @param {string} slug    — current product slug to exclude
+ * @param {number} [limit] — max results, default 4
+ * @returns {Promise<any[]>}
+ */
+export async function getRelatedProducts(slug, limit = 4) {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*, categories(name, slug)")
+    .eq("in_stock", true)
+    .neq("slug", slug)
+    .limit(limit);
+  if (error) throw error;
+  return data ?? [];
+}
+
+/**
+ * Fetch all categories ordered by name.
+ * @returns {Promise<any[]>}
+ */
 export async function getCategories() {
   const { data, error } = await supabase
     .from("categories")
     .select("*")
     .order("name");
   if (error) throw error;
-  return data;
+  return data ?? [];
 }
 
+// ─── Order helper ──────────────────────────────────────────────────────────
+
 /**
- * Create a new order (server-side only — uses admin client)
+ * Create a new order (server-side only — uses admin client).
  * @param {{ customer: Object, address: Object, items: Object[], subtotal: number, total: number }} payload
  */
 export async function createOrder({ customer, address, items, subtotal, total }) {
