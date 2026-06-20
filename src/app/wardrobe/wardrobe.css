@@ -1,0 +1,141 @@
+.products-header {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-top: 25svh;
+  overflow: hidden;
+}
+
+.products-header .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.products-header h1 {
+  width: 50%;
+}
+
+.products-header .products-header-divider {
+  width: 100%;
+  height: 0.125rem;
+  background-color: var(--base-200);
+}
+
+.products-header .product-filter-bar {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+}
+
+.products-header .product-filter-bar p {
+  font-weight: 500;
+}
+
+.products-header .product-filter-bar > div {
+  flex: 1;
+  display: flex;
+}
+
+.products-header .filter-bar-tags {
+  justify-content: center;
+  gap: 1rem;
+}
+
+.products-header .filter-bar-tags p {
+  color: var(--base-400);
+  cursor: pointer;
+}
+
+.products-header .filter-bar-tags p.active {
+  color: var(--base-700);
+}
+
+.products-header .filter-bar-colors {
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.products-header .filter-bar-colors span {
+  width: 1rem;
+  height: 1rem;
+  border: 0.0625rem solid var(--base-200);
+  cursor: pointer;
+}
+
+.products-header .filter-bar-colors span.black {
+  background-color: #121212;
+}
+
+.products-header .filter-bar-colors span.stone {
+  background-color: #a49e91;
+}
+
+.products-header .filter-bar-colors span.ice {
+  background-color: #bfc4cb;
+}
+
+.products-header .filter-bar-colors span.grey {
+  background-color: #686868;
+}
+
+.products-header .filter-bar-colors span.white {
+  background-color: #ffffff;
+}
+
+.products-header .filter-bar-colors span.active {
+  border: 0.125rem dashed var(--base-700);
+}
+
+.product-list {
+  width: 100%;
+  padding: 2rem 0 4rem 0;
+}
+
+.product-list .container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .product-list .container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1000px) {
+  .products-header .container {
+    align-items: center;
+    text-align: center;
+  }
+
+  .products-header h1 {
+    width: 100%;
+  }
+
+  .product-list .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .products-header .product-filter-bar {
+    flex-direction: column;
+  }
+
+  .products-header .filter-bar-header {
+    display: none !important;
+  }
+
+  .products-header .filter-bar-tags,
+  .products-header .filter-bar-colors {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 500px) {
+  .product-list .container {
+    grid-template-columns: 1fr;
+  }
+}

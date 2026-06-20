@@ -1,0 +1,144 @@
+.genesis-hero {
+  position: relative;
+  width: 100%;
+  height: 125svh;
+  overflow: hidden;
+}
+
+.genesis-hero .gen-hero-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.genesis-hero .container {
+  position: relative;
+  color: var(--base-100);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10rem 2.125rem;
+}
+
+.genesis-hero .container .gen-hero-copy:nth-child(1) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.genesis-hero .container .gen-hero-copy p {
+  color: var(--base-400);
+}
+
+.genesis-hero .container .gen-hero-copy:nth-child(3) {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.genesis-hero .container .gen-hero-copy:nth-child(3) h1 {
+  width: 75%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.genesis-hero .container .gen-hero-copy:nth-child(3) .gen-hero-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.genesis-about {
+  position: relative;
+  padding: 8rem 0;
+  background-color: var(--base-100);
+}
+
+.genesis-about .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+}
+
+.genesis-about .container .genesis-about-logo {
+  width: 8rem;
+  height: 8rem;
+}
+
+.genesis-about .container .genesis-about-copy {
+  width: 60%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.genesis-about .container .genesis-about-copy h4 {
+  margin-bottom: 2rem;
+}
+
+/* project - preview gallery */
+.project-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  background-color: var(--base-400);
+  overflow: hidden;
+}
+
+.project-preview .project-preview-wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  width: 160%;
+  height: 100vh;
+  display: flex;
+  gap: 4em;
+}
+
+.project-preview .project-preview-wrapper .preview-col {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4em;
+}
+
+.project-preview .project-preview-wrapper .preview-img {
+  flex: 1;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.project-preview .project-preview-wrapper .preview-img.main-preview-img img {
+  position: relative;
+  transform: scale(2);
+}
+
+.project-page-whitespace {
+  width: 100%;
+  height: 600vh;
+}
+
+@media (max-width: 1000px) {
+  .genesis-hero .container .gen-hero-copy:nth-child(3) h1,
+  .genesis-about .container .genesis-about-copy {
+    width: 100%;
+  }
+
+  .genesis-hero .container {
+    padding: 10rem 1.5rem;
+  }
+
+  .project-preview .project-preview-wrapper {
+    width: 250%;
+  }
+}

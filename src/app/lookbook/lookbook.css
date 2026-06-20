@@ -1,0 +1,13 @@
+.lookbook {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  background-color: var(--base-300);
+  overflow: hidden;
+}
+
+@media (max-width: 1000px) {
+  .lookbook .section-footer p:nth-child(2) {
+    display: none;
+  }
+}
