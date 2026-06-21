@@ -1,6 +1,8 @@
-- [ ] Create isolated admin layout at `src/app/admin/layout.tsx`
-- [ ] Replace client-hook based admin nav with server-safe responsive sidebar/header
-- [ ] Remove legacy `src/app/admin/layout.js`
-- [ ] Ensure admin layout excludes public navbar/footer/floating cart/transition wrappers
-- [ ] Add admin-scoped styling hooks for clean dashboard appearance
-- [ ] Verify route structure and run validation command
+- [x] Create isolated admin layout at `src/app/admin/layout.tsx`
+- [x] Replace client-hook based admin nav with server-safe responsive sidebar/header
+- [x] Remove legacy `src/app/admin/layout.js`
+- [x] Ensure admin layout excludes public navbar/footer/floating cart/transition wrappers
+- [x] Add admin-scoped styling hooks for clean dashboard appearance
+- [ ] Fix TypeScript CSS side-effect import error in `src/app/admin/layout.tsx`
+- [ ] Verify production build locally (`npm run build`)
+- [ ] Commit and push fix to `main`
