@@ -2,9 +2,9 @@
 import "./genesis.css";
 import { useRef } from "react";
 
-import Copy from "@/components/Copy/Copy";
-import TextBlock from "@/components/TextBlock/TextBlock";
-import BrandIcon from "@/components/BrandIcon/BrandIcon";
+import Copy from "../../components/Copy/Copy";
+import TextBlock from "../../components/TextBlock/TextBlock";
+import BrandIcon from "../../components/BrandIcon/BrandIcon";
 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";

@@ -1,7 +1,7 @@
 "use client";
 import "./Product.css";
 import Link from "next/link";
-import { useCartStore } from "@/store/cartStore";
+import { useCartStore } from "../../store/cartStore";
 
 /**
  * @typedef {{

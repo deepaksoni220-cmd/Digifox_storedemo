@@ -3,8 +3,8 @@ import "./ShoppingCart.css";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { products } from "@/app/wardrobe/products";
-import { useCartStore, useCartCount, useCartSubtotal } from "@/store/cartStore";
+import { products } from "../../app/wardrobe/products";
+import { useCartStore, useCartCount, useCartSubtotal } from "../../store/cartStore";
 
 const ShoppingCart = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createOrder } from "@/lib/supabase";
+import { createOrder } from "../../../lib/supabase";
 
 /**
  * POST /api/orders

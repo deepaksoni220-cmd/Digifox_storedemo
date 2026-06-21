@@ -2,9 +2,9 @@
 import "./wardrobe.css";
 import { useEffect, useRef, useState, useCallback } from "react";
 
-import Product from "@/components/Product/Product";
-import { ProductSkeletonGrid } from "@/components/ProductSkeleton/ProductSkeleton";
-import Copy from "@/components/Copy/Copy";
+import Product from "../../components/Product/Product";
+import { ProductSkeletonGrid } from "../../components/ProductSkeleton/ProductSkeleton";
+import Copy from "../../components/Copy/Copy";
 import { gsap } from "gsap";
 
 const TAGS   = ["All", "Sheerform", "Functionary", "Deform"];

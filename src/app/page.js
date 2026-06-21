@@ -4,16 +4,16 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 import { products } from "./wardrobe/products";
-import Preloader, { isInitialLoad } from "@/components/Preloader/Preloader";
-import DotMatrix from "@/components/DotMatrix/DotMatrix";
-import BrandIcon from "@/components/BrandIcon/BrandIcon";
-import MarqueeBanner from "@/components/MarqueeBanner/MarqueeBanner";
-import TextBlock from "@/components/TextBlock/TextBlock";
-import PeelReveal from "@/components/PeelReveal/PeelReveal";
-import CTA from "@/components/CTA/CTA";
+import Preloader, { isInitialLoad } from "../components/Preloader/Preloader";
+import DotMatrix from "../components/DotMatrix/DotMatrix";
+import BrandIcon from "../components/BrandIcon/BrandIcon";
+import MarqueeBanner from "../components/MarqueeBanner/MarqueeBanner";
+import TextBlock from "../components/TextBlock/TextBlock";
+import PeelReveal from "../components/PeelReveal/PeelReveal";
+import CTA from "../components/CTA/CTA";
 
-import Copy from "@/components/Copy/Copy";
-import Product from "@/components/Product/Product";
+import Copy from "../components/Copy/Copy";
+import Product from "../components/Product/Product";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";

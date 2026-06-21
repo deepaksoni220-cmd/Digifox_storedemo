@@ -5,11 +5,11 @@ import { useRef, useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
-import Copy from "@/components/Copy/Copy";
-import Product from "@/components/Product/Product";
-import { ProductSkeletonGrid } from "@/components/ProductSkeleton/ProductSkeleton";
-import { useCartStore } from "@/store/cartStore";
-import { COLOR_MAP } from "@/lib/productUtils";
+import Copy from "../../../components/Copy/Copy";
+import Product from "../../../components/Product/Product";
+import { ProductSkeletonGrid } from "../../../components/ProductSkeleton/ProductSkeleton";
+import { useCartStore } from "../../../store/cartStore";
+import { COLOR_MAP } from "../../../lib/productUtils";
 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -78,9 +78,9 @@ export default function ProductDetail() {
       ScrollTrigger.create({
         trigger: heroRef.current,
         start: "top top",
-        end: `+=${window.innerHeight * 5}`,
-        pin: true,
-        pinSpacing: true,
+        end: `+=${window.innerHeight * Math.max(0, total - 1)}`,
+        pin: total > 1,
+        pinSpacing: total > 1,
         scrub: 1,
         onUpdate: (self) => {
           const progress = self.progress;
@@ -124,21 +124,19 @@ export default function ProductDetail() {
   const colorHex = product ? (COLOR_MAP[product.color] || "#969992") : "#969992";
 
   // ── Build image arrays ────────────────────────────────────────────────────
-  // Use Supabase Storage shots if image_url exists, else static fallbacks
-  const shots = Array.from({ length: SHOT_COUNT }, (_, i) => {
-    if (product?.image_url) {
-      // Derive additional shots: main.jpg, shot2.jpg … shot5.jpg
-      return i === 0 ? product.image_url : product.image_url.replace("main.jpg", `shot${i + 1}.jpg`);
-    }
-    return shotSrc(i + 1);
-  });
+  let shots = [];
+  let minis = [];
 
-  const minis = Array.from({ length: SHOT_COUNT }, (_, i) => {
-    if (product?.image_url) {
-      return product.image_url.replace("main.jpg", `mini${i + 1}.jpg`);
-    }
-    return miniSrc(i + 1);
-  });
+  if (product) {
+    shots = [product.image_url, ...(product.product_images || [])].filter(Boolean);
+    minis = [...shots]; // Use the same images for the minimap
+  }
+
+  // Fallbacks if no images are uploaded at all
+  if (shots.length === 0) {
+    shots = Array.from({ length: SHOT_COUNT }, (_, i) => shotSrc(i + 1));
+    minis = Array.from({ length: SHOT_COUNT }, (_, i) => miniSrc(i + 1));
+  }
 
   // ── Loading state ─────────────────────────────────────────────────────────
   if (loading) {
@@ -272,7 +270,7 @@ export default function ProductDetail() {
           </div>
         </div>
         <div className="product-col product-col-img">
-          <img src={shots[2]} alt={product.name}
+          <img src={shots[2] || shots[0] || shotSrc(3)} alt={product.name}
             onError={(e) => { e.currentTarget.src = shotSrc(3); }}
           />
         </div>
@@ -281,7 +279,7 @@ export default function ProductDetail() {
       {/* ── Shipping ────────────────────────────────────────────────────── */}
       <section className="product-details shipping-details">
         <div className="product-col product-col-img">
-          <img src={shots[3]} alt={product.name}
+          <img src={shots[3] || shots[1] || shots[0] || shotSrc(4)} alt={product.name}
             onError={(e) => { e.currentTarget.src = shotSrc(4); }}
           />
         </div>

@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 
 import { ReactLenis } from "lenis/react";
 
-export default function ClientLayout({ children, footer }) {
+export default function ClientLayout({ children, footer, menu, cart }) {
   const pageRef = useRef();
   const pathname = usePathname();
 
@@ -56,12 +56,16 @@ export default function ClientLayout({ children, footer }) {
         syncTouch: true,
       };
 
+  const isAdmin = pathname?.startsWith("/admin");
+
   return (
     <ReactLenis root options={scrollSettings}>
       <div className="page" ref={pageRef}>
+        {!isAdmin && menu}
         {children}
-        {pathname !== "/lookbook" && footer}
+        {!isAdmin && pathname !== "/lookbook" && footer}
       </div>
+      {!isAdmin && cart}
     </ReactLenis>
   );
 }

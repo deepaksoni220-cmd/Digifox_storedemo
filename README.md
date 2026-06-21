@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Digifox Frontend + Admin Dashboard
 
-## Getting Started
+Next.js storefront with Supabase-powered ecommerce backend and a protected admin dashboard.
 
-First, run the development server:
+## Features
+
+### Storefront (existing)
+- Product listing and detail pages
+- Checkout flow
+- Public product APIs with local fallback
+
+### Admin Dashboard (added)
+- Dashboard statistics (products, orders, customers, revenue)
+- Product CRUD
+- Order management
+- Customer management
+- Order status updates
+- Product image upload (Supabase Storage)
+- Protected admin routes
+- Responsive UI
+- Tailwind-based admin styling mapped to your existing Digifox palette
+
+---
+
+## Tech Stack
+
+- Next.js (App Router)
+- React
+- Supabase (`@supabase/supabase-js`)
+- Tailwind CSS v4 (for admin UI)
+
+---
+
+## Environment Variables
+
+Create a `.env.local` file in the project root and add:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Public Supabase (already used by storefront)
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Server-side admin access
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+
+# Admin panel login credentials
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=change-this-password
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> Keep `SUPABASE_SERVICE_ROLE_KEY` server-side only. Never expose it to the client.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Supabase Requirements
 
-## Learn More
+1. Run `supabase/schema.sql` in Supabase SQL Editor.
+2. Ensure a **public** storage bucket named `products` exists for product image upload.
+3. Confirm RLS/policies are applied from the schema.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Run Locally
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm install
+npm run dev
+```
 
-## Deploy on Vercel
+Open:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Storefront: `http://localhost:3000`
+- Admin Login: `http://localhost:3000/admin/login`
+- Admin Dashboard: `http://localhost:3000/admin/dashboard`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Admin Routes
+
+### Pages
+- `/admin/login`
+- `/admin/dashboard`
+- `/admin/products`
+- `/admin/orders`
+- `/admin/customers`
+
+### API
+- `POST /api/admin/auth/login`
+- `POST /api/admin/auth/logout`
+- `GET /api/admin/stats`
+- `GET /api/admin/products`
+- `POST /api/admin/products`
+- `PATCH /api/admin/products/:id`
+- `DELETE /api/admin/products/:id`
+- `GET /api/admin/orders`
+- `PATCH /api/admin/orders/:id/status`
+- `GET /api/admin/customers`
+- `POST /api/admin/upload`
+
+---
+
+## Notes
+
+- Admin route protection is done via `src/middleware.js` and session cookie `digifox_admin_session`.
+- Admin credentials are simple env-based auth intended for controlled environments. For multi-user production auth, migrate to Supabase Auth or another identity provider.
+- Tailwind is enabled globally, while existing storefront CSS remains intact.

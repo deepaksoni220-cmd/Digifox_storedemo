@@ -2,8 +2,8 @@
 import "./touchpoint.css";
 import { useRef, useEffect } from "react";
 
-import Copy from "@/components/Copy/Copy";
-import BrandIcon from "@/components/BrandIcon/BrandIcon";
+import Copy from "../../components/Copy/Copy";
+import BrandIcon from "../../components/BrandIcon/BrandIcon";
 
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";

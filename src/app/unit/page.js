@@ -4,9 +4,9 @@ import { useRef, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 import { products } from "../wardrobe/products";
-import Copy from "@/components/Copy/Copy";
-import Product from "@/components/Product/Product";
-import { useCartStore } from "@/store/cartStore";
+import Copy from "../../components/Copy/Copy";
+import Product from "../../components/Product/Product";
+import { useCartStore } from "../../store/cartStore";
 
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";

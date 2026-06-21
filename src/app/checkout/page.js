@@ -2,8 +2,8 @@
 import "./checkout.css";
 import { useState } from "react";
 import Link from "next/link";
-import { useCartStore, useCartSubtotal } from "@/store/cartStore";
-import { products } from "@/app/wardrobe/products";
+import { useCartStore, useCartSubtotal } from "../../store/cartStore";
+import { products } from "../wardrobe/products";
 
 export default function Checkout() {
   const cartItems = useCartStore((state) => state.cartItems);

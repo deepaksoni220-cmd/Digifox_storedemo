@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { getProductBySlug, getRelatedProducts } from "@/lib/supabase";
-import { products as localProducts } from "@/app/wardrobe/products";
-import { enrichLocalProduct, toSlug } from "@/lib/productUtils";
+import { getProductBySlug, getRelatedProducts } from "../../../../lib/supabase";
+import { products as localProducts } from "../../../wardrobe/products";
+import { enrichLocalProduct, toSlug } from "../../../../lib/productUtils";
 
 /**
  * GET /api/products/[slug]
