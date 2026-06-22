@@ -1,6 +1,14 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "../../../../lib/supabase";
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+const ALLOWED_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+]);
+
 function sanitizeSegment(input = "") {
   return input
     .toLowerCase()
@@ -22,6 +30,28 @@ export async function POST(request) {
       );
     }
 
+    // ── File type validation ──────────────────────────────────────────────
+    const mimeType = file.type || "";
+    if (!ALLOWED_TYPES.has(mimeType)) {
+      return NextResponse.json(
+        {
+          error: `File type "${mimeType}" is not allowed. Only JPEG, PNG, WebP, and GIF images are accepted.`,
+        },
+        { status: 400 }
+      );
+    }
+
+    // ── File size validation ──────────────────────────────────────────────
+    if (file.size > MAX_FILE_SIZE) {
+      const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+      return NextResponse.json(
+        {
+          error: `File is too large (${sizeMB} MB). Maximum allowed size is 5 MB.`,
+        },
+        { status: 400 }
+      );
+    }
+
     const slug = sanitizeSegment(String(slugRaw));
     const ext = file.name.includes(".") ? file.name.split(".").pop() : "jpg";
     const fileName = `${Date.now()}-${sanitizeSegment(file.name.replace(/\.[^/.]+$/, ""))}.${ext}`;
@@ -34,7 +64,7 @@ export async function POST(request) {
     const { error } = await admin.storage
       .from("products")
       .upload(filePath, buffer, {
-        contentType: file.type || "image/jpeg",
+        contentType: mimeType,
         upsert: false,
       });
 
@@ -49,7 +79,7 @@ export async function POST(request) {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: error.message || "Failed to upload image." },
+      { error: "Failed to upload image. Please try again." },
       { status: 500 }
     );
   }
